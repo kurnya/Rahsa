@@ -316,20 +316,14 @@ pub async fn masuk(state: State<'_, AppState>, account_id: Uuid, incognito: Opti
         return Ok(());
     }
 
-    // Chrome not running (or the extension not yet connected): start Chrome
-    // and give the extension a moment to connect through rahsa-host.
-    if !state.extension_connected() {
-        chrome::start()?;
-        for _ in 0..50 {
-            if state.extension_connected() {
-                break;
-            }
-            tokio::time::sleep(Duration::from_millis(200)).await;
-        }
-    }
+    // The extension's worker sleeps while it has no connection (Rahsa never
+    // runs in the background, so it may have been closed earlier). Open the
+    // login page directly: its content script wakes the extension, which
+    // connects and picks up the intent. The old session is not cleared in
+    // this path; the next "Masuk" goes through the extension as usual.
     let Some(session) = state.latest_session() else {
-        *state.intent.lock().unwrap() = None;
-        return Err("Chrome sudah dibuka, tetapi ekstensi Rahsa belum tersambung. Pastikan ekstensi terpasang, aktif, dan sudah dipasangkan (Pengaturan → Ekstensi).".into());
+        chrome::open_url(&t.url, false)?;
+        return Ok(());
     };
     let _ = state.events.send(ExtEvent::OpenLogin {
         session,

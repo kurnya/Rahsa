@@ -76,13 +76,6 @@ pub fn chrome_exe() -> Option<PathBuf> {
     candidates.into_iter().find(|p| p.exists())
 }
 
-/// Start Chrome (or open a new window if it is running) without a URL, so the
-/// extension wakes up and connects.
-pub fn start() -> Result<(), String> {
-    let exe = chrome_exe().ok_or("Google Chrome tidak ditemukan di laptop ini")?;
-    std::process::Command::new(exe).spawn().map(|_| ()).map_err(|e| format!("Gagal membuka Chrome: {e}"))
-}
-
 /// PRD §9 "Aturan tombol Masuk": only a stored `https://` URL, passed to
 /// `chrome.exe` as a single argument — never through a shell.
 pub fn open_url(url: &str, incognito: bool) -> Result<(), String> {

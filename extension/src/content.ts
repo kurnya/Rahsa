@@ -204,7 +204,7 @@ declare global {
       return;
     }
     if (reply.state !== "ready") {
-      message(menu, reply.state === "offline" ? "Aplikasi Rahsa tidak tersambung." : "Ekstensi belum dipasangkan. Klik ikon Rahsa di toolbar.");
+      message(menu, reply.state === "offline" ? "Buka aplikasi Rahsa dulu, lalu coba lagi." : "Ekstensi belum dipasangkan. Klik ikon Rahsa di toolbar.");
       return;
     }
     if (reply.accounts.length === 0) {

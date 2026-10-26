@@ -11,7 +11,6 @@
 
 #[cfg(windows)]
 mod relay {
-    use std::path::PathBuf;
     use std::time::Duration;
 
     use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
@@ -44,25 +43,17 @@ mod relay {
         w.flush().await
     }
 
-    fn app_exe() -> Option<PathBuf> {
-        let dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
-        ["rahsa.exe", "Rahsa.exe"].iter().map(|n| dir.join(n)).find(|p| p.exists())
-    }
-
+    /// Connect to the running app. The host never starts the app itself: Rahsa
+    /// runs only while the user has it open, so if the pipe is missing we
+    /// report that and exit.
     async fn connect(name: &str) -> std::io::Result<NamedPipeClient> {
-        let mut launched = false;
-        for _ in 0..100 {
+        for _ in 0..30 {
             match ClientOptions::new().open(name) {
                 Ok(c) => return Ok(c),
+                // All pipe instances momentarily in use: retry shortly.
                 Err(e) if e.raw_os_error() == Some(ERROR_PIPE_BUSY) => {}
                 Err(e) if e.raw_os_error() == Some(ERROR_FILE_NOT_FOUND) => {
-                    // App not running: start it hidden in the tray, then retry.
-                    if !launched {
-                        launched = true;
-                        if let Some(exe) = app_exe() {
-                            let _ = std::process::Command::new(exe).arg("--tray").spawn();
-                        }
-                    }
+                    return Err(std::io::Error::new(std::io::ErrorKind::NotFound, "aplikasi Rahsa tidak sedang dibuka"));
                 }
                 Err(e) => return Err(e),
             }

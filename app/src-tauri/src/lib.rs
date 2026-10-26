@@ -14,8 +14,6 @@ use tauri::Manager;
 pub use state::AppState;
 
 pub fn run() {
-    let start_hidden = std::env::args().any(|a| a == "--tray");
-
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             state::show_main(app);
@@ -40,16 +38,16 @@ pub fn run() {
             guard::spawn(app.handle().clone());
             ipc::spawn(app.handle().clone());
 
-            if !start_hidden {
-                state::show_main(app.handle());
-            }
+            state::show_main(app.handle());
             Ok(())
         })
         .on_window_event(|window, event| {
-            // Closing the window keeps Rahsa in the tray so the extension keeps working.
-            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                api.prevent_close();
-                let _ = window.hide();
+            // Closing the window quits Rahsa completely: lock (zeroizing the
+            // vault key) and exit, leaving nothing running in the tray.
+            if let tauri::WindowEvent::CloseRequested { .. } = event {
+                let app = window.app_handle();
+                app.state::<AppState>().lock(app, "quit");
+                app.exit(0);
             }
         })
         .invoke_handler(tauri::generate_handler![

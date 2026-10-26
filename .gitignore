@@ -32,3 +32,6 @@ desktop.ini
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Release artifacts gathered by scripts/build.ps1
+release/

@@ -27,8 +27,8 @@ async function render() {
 
   if (s.state === "offline") {
     view.append(
-      el("p", { textContent: "Aplikasi Rahsa tidak bisa dihubungi." }),
-      el("p", { className: "muted", textContent: "Pastikan aplikasi Rahsa sudah terpasang di Windows dan pernah dibuka sekali (untuk mendaftarkan native host)." }),
+      el("p", { textContent: "Aplikasi Rahsa sedang tidak dibuka." }),
+      el("p", { className: "muted", textContent: "Buka aplikasi Rahsa di Windows, lalu klik Coba lagi. Ekstensi hanya bekerja selama aplikasinya terbuka." }),
       button("Coba lagi", "primary", render),
     );
     return;
