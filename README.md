@@ -10,6 +10,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/kurnya/Rahsa/releases/latest"><b>Unduh</b></a> ·
   <a href="#instalasi">Instalasi</a> ·
   <a href="#cara-kerja">Cara kerja</a> ·
   <a href="#keamanan">Keamanan</a> ·
@@ -55,39 +56,61 @@ Rahsa dibuat untuk kebutuhan itu:
 
 ## Instalasi
 
-> Rahsa masih versi awal (0.1). Belum ada installer bertanda tangan dan ekstensinya belum ada di Chrome Web Store, jadi untuk sekarang dipasang dari source.
+### Unduh rilis (disarankan)
 
-**Kebutuhan:** Windows 10 (22H2) atau 11 x64, Google Chrome 120+, [Rust](https://rustup.rs) (toolchain MSVC), Visual Studio Build Tools dengan workload C++, dan Node.js 20+.
+**[⬇ Unduh versi terbaru untuk Windows](https://github.com/kurnya/Rahsa/releases/latest)**: pilih file `Rahsa-<versi>-Windows.zip` di bagian *Assets*. Versi sebelumnya ada di halaman [Releases](https://github.com/kurnya/Rahsa/releases).
+
+**Kebutuhan:** Windows 10 (22H2) atau 11 x64 dan Google Chrome 120+.
+
+Isi zip:
+
+```
+Rahsa-<versi>-Windows/
+├── Rahsa_<versi>_x64-setup.exe   installer aplikasi (per user, tanpa hak admin)
+├── ekstensi-chrome/            ekstensi Google Chrome
+└── CARA-PASANG.txt             panduan pemasangan
+```
+
+1. Ekstrak zip, lalu jalankan `Rahsa_<versi>_x64-setup.exe`. Jika muncul **"Windows protected your PC"**, klik **More info → Run anyway** (installer belum ditandatangani).
+2. Salin folder `ekstensi-chrome` ke tempat permanen, misalnya `C:\Rahsa\ekstensi-chrome`.
+3. Di Chrome, buka `chrome://extensions`, nyalakan **Developer mode**, klik **Load unpacked**, lalu pilih folder tadi.
+
+Langkah lengkapnya ada di `CARA-PASANG.txt` di dalam zip.
+
+> Rahsa masih versi awal (pre-release). Installer belum ditandatangani dan ekstensinya belum ada di Chrome Web Store.
+
+### Build dari source
+
+**Kebutuhan tambahan:** [Rust](https://rustup.rs) (toolchain MSVC), Visual Studio Build Tools dengan workload C++, dan Node.js 20+.
 
 ```powershell
 winget install Rustlang.Rustup
 winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
 ```
 
-**1. Build dan jalankan aplikasi**
+Menjalankan dalam mode pengembangan:
 
 ```powershell
-git clone <url-repo-ini> rahsa
-cd rahsa
+git clone https://github.com/kurnya/Rahsa.git
+cd Rahsa
 pwsh scripts/build.ps1 -Dev      # build native host + ekstensi
 cd app
 npm install
 npm run tauri dev                # jalankan aplikasi desktop
 ```
 
-Untuk membuat installer (`target/release/bundle/nsis/Rahsa_<versi>_x64-setup.exe`, dipasang per user tanpa hak admin):
+Lalu muat ekstensi dari folder `extension/dist` lewat **Load unpacked** di `chrome://extensions`.
+
+Membuat paket rilis (installer + ekstensi + panduan, sama seperti yang diunggah ke Releases):
 
 ```powershell
-pwsh scripts/build.ps1
+pwsh scripts/build.ps1           # hasil: release/Rahsa-<versi>-Windows.zip
 ```
 
-**2. Pasang ekstensi Chrome**
+Catatan teknis:
 
-1. Buka `chrome://extensions` dan nyalakan **Developer mode**.
-2. Klik **Load unpacked**, lalu pilih folder `extension/dist`.
-3. ID ekstensi selalu `nahifcpmliobngflogfdhojbklmomgad` (dikunci oleh `key` di manifest). Hanya ID ini yang diizinkan berbicara dengan aplikasi.
-
-Aplikasi otomatis mendaftarkan native messaging host di `HKCU` setiap kali dibuka.
+- ID ekstensi selalu `nahifcpmliobngflogfdhojbklmomgad` (dikunci oleh `key` di manifest). Hanya ID ini yang diizinkan berbicara dengan aplikasi.
+- Aplikasi otomatis mendaftarkan native messaging host di `HKCU` setiap kali dibuka.
 
 ## Pemakaian
 
