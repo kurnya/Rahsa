@@ -17,7 +17,7 @@ export function CardMenu(props: { account: AccountMeta; notify: Notify; onDelete
     if (!next) return setPos(null);
     // Anchor to the ⋯ button; open upward when there is no room below.
     const r = trigger.current!.getBoundingClientRect();
-    const left = Math.min(r.right - 160, window.innerWidth - 168);
+    const left = Math.max(8, Math.min(r.left, window.innerWidth - 168));
     setPos(r.bottom + 170 > window.innerHeight ? { left, bottom: window.innerHeight - r.top + 4 } : { left, top: r.bottom + 4 });
   };
 

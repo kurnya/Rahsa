@@ -4,7 +4,7 @@ import { api, errorText, originLabel, type AccountMeta, type Institution, type O
 import type { Notify } from "../App";
 import { useT } from "../i18n";
 import { Building, Dice, Gear, LockIcon, Mark, Pencil, Plus, Search, Trash } from "../components/icons";
-import { formatDate } from "../components/ui";
+import { formatDate, shortDate } from "../components/ui";
 import { CardMenu } from "../components/CardMenu";
 import { AccountForm } from "../components/AccountForm";
 import { InstitutionForm } from "../components/InstitutionForm";
@@ -291,8 +291,8 @@ export function VaultView(props: { notify: Notify; onLock: () => void; onLanguag
                           </div>
                         )}
                         <div className="tag-foot">
-                          <span className="tag-used">
-                            {a.last_used_at ? formatDate(a.last_used_at, lang) : t.never}
+                          <span className="tag-used" title={a.last_used_at ? `${t.lastUsed}: ${formatDate(a.last_used_at, lang)}` : t.never}>
+                            {a.last_used_at ? shortDate(a.last_used_at, lang) : ""}
                           </span>
                           <CardMenu
                             account={a}

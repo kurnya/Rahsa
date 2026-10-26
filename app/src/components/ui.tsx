@@ -127,6 +127,11 @@ export function formatDate(ms: number | null, lang: string): string {
   });
 }
 
+/** "26 Okt" — compact date for cards; the full date goes in a tooltip. */
+export function shortDate(ms: number, lang: string): string {
+  return new Date(ms).toLocaleDateString(lang === "en" ? "en-GB" : "id-ID", { day: "numeric", month: "short" });
+}
+
 export function relativeDays(ms: number): number {
   return Math.max(0, Math.floor((Date.now() - ms) / 86_400_000));
 }
