@@ -1,0 +1,31 @@
+[package]
+name = "rahsa"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Rahsa — password manager lokal"
+
+[lib]
+name = "rahsa_app"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+rahsa-core.workspace = true
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-single-instance = "2"
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+zeroize.workspace = true
+tokio.workspace = true
+x25519-dalek.workspace = true
+base64.workspace = true
+url.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-sys.workspace = true
+winreg = "0.55"

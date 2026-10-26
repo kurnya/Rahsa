@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Rahsa",
+  "version": "0.1.0",
+  "description": "Isi form login web institusi dengan akun dari aplikasi Rahsa di laptop Anda.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyPDKc45CYHkjrug8uBanqa3qjdCapSTv/RgSK1iNA9T7rX9F+6DaPZbFzSpdlYlQh55bMRI5QDFCVG6tg1Nx1Tqvlju7+Ppp7nL4DkeHNP/zWFE8jZzO5tMGf+ZPHFpfrks5e4H+HkvwpeGoBFhHAgCQxq7364Q7nFXJnRIQ0TsXcFWvwIPfqQQ4p247pr7a2ngGYnZPbc41jlUKpV7IHpBrMBt6vAlsERekJ4ImzgT2VV0NEpdI7h6OOAL7v8DmVPlp+8ls+NJ1BC19Ipje6m+UX5u6YpDuFfhCgboHxnjB5sK+ISeCSQbYen7W7Dg/Bbku0NkrbyooJawQ53UFgwIDAQAB",
+  "minimum_chrome_version": "120",
+  "permissions": ["nativeMessaging", "activeTab", "storage", "scripting", "browsingData"],
+  "optional_host_permissions": ["https://*/*"],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "Rahsa",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/locked-16.png", "32": "icons/locked-32.png" }
+  },
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "commands": {
+    "fill-login": {
+      "suggested_key": { "default": "Ctrl+Shift+L" },
+      "description": "Pilih akun Rahsa untuk halaman ini"
+    }
+  },
+  "incognito": "spanning",
+  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'" }
+}

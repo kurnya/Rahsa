@@ -1,0 +1,37 @@
+:root {
+  --bg: #ffffff;
+  --ink: #1c2b4d;
+  --muted: #5a667a;
+  --line: #d3d9e1;
+  --brass: #c58a2a;
+  --brass-soft: #f8ecd0;
+  --brass-ink: #74501a;
+  --focus: #2f5fd0;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #132039; --ink: #e7ecf2; --muted: #98a4b5; --line: #283a60; --brass: #e3b65c; --brass-soft: #3a3120; --brass-ink: #f5d488; --focus: #8fb0ff; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 320px; background: var(--bg); color: var(--ink); font: 14px/1.4 "Segoe UI", system-ui, sans-serif; }
+header { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+header strong { font-size: 15px; }
+.mark { width: 20px; height: 20px; color: var(--brass); }
+.status { margin-left: auto; font-size: 12px; color: var(--muted); }
+main { padding: 12px 14px 14px; }
+p { margin: 0 0 10px; }
+.muted { color: var(--muted); font-size: 12.5px; }
+.origin { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); margin-bottom: 8px; overflow-wrap: anywhere; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.btn { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-weight: 600; margin-top: 6px; }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn.brass { background: var(--brass); border-color: var(--brass); color: #0c1426; }
+.account { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); }
+.account:first-of-type { border-top: 0; }
+.account .who { flex: 1; min-width: 0; }
+.account .label { font-weight: 600; }
+.account .hint { font-size: 12px; color: var(--muted); }
+.account .btn { width: auto; margin: 0; padding: 5px 12px; }
+.code { font-family: Consolas, monospace; font-size: 34px; letter-spacing: 0.16em; text-align: center; padding: 10px 0 12px; color: var(--brass-ink); }
+.notice { background: var(--brass-soft); color: var(--brass-ink); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; font-size: 12.5px; }

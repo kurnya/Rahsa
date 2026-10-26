@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Rahsa — Emergency Kit</title>
+<style>
+  body { font-family: "Segoe UI", system-ui, sans-serif; color: #1C2B4D; max-width: 680px; margin: 40px auto; padding: 0 24px; line-height: 1.55; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .muted { color: #5A667A; }
+  .box { border: 2px solid #1C2B4D; border-radius: 10px; padding: 18px 20px; margin: 22px 0; }
+  .line { border-bottom: 1px solid #1C2B4D; height: 34px; margin: 6px 0 14px; }
+  code { background: #EDF0F3; padding: 2px 6px; border-radius: 4px; word-break: break-all; }
+  ol li { margin-bottom: 8px; }
+  @media print { body { margin: 0 auto; } }
+</style>
+</head>
+<body>
+<h1>Emergency Kit Rahsa</h1>
+<p class="muted">Dibuat {{DATE}}. Cetak dokumen ini dan simpan di tempat aman, terpisah dari laptop.</p>
+
+<div class="box">
+  <strong>Master password</strong>
+  <p class="muted">Dokumen ini sengaja tidak berisi master password Anda. Jika ingin, tulis tangan di bawah ini setelah dicetak, lalu simpan kertasnya di tempat terkunci.</p>
+  <div class="line"></div>
+</div>
+
+<h2>Lokasi vault di laptop ini</h2>
+<p><code>{{VAULT_PATH}}</code></p>
+<p class="muted">Tiga versi sebelumnya disimpan di folder yang sama sebagai <code>vault.rahsa.1</code> sampai <code>.3</code>.</p>
+
+<h2>Memulihkan di laptop baru</h2>
+<ol>
+  <li>Siapkan file backup <code>rahsa-backup-YYYYMMDD.rahsa</code> dari flashdisk atau drive lain.</li>
+  <li>Pasang aplikasi Rahsa, lalu pilih <em>Pulihkan dari backup</em> di layar pertama.</li>
+  <li>Pilih file backup dan masukkan master password.</li>
+  <li>Pasang ekstensi Rahsa di Chrome dan pasangkan ulang dengan kode 6 digit.</li>
+</ol>
+
+<h2>Penting</h2>
+<p>Tanpa master password, isi vault tidak bisa dibuka oleh siapa pun, termasuk pembuat aplikasi. Tidak ada pintu belakang.</p>
+</body>
+</html>
