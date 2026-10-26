@@ -41,18 +41,27 @@ try {
         Write-Host "Ekstensi siap dimuat dari: $root\extension\dist"
     }
     else {
-        # Gather everything to hand out in one folder: installer + extension zip.
+        # One folder to hand out: installer + unpacked extension + guide, then zipped.
+        #   release/Rahsa-<versi>-Windows/{Rahsa_<versi>_x64-setup.exe, ekstensi-chrome/, CARA-PASANG.txt}
+        #   release/Rahsa-<versi>-Windows.zip
         $version = (Get-Content extension/public/manifest.json -Raw | ConvertFrom-Json).version
+        $name = "Rahsa-$version-Windows"
         $out = Join-Path $root "release"
-        New-Item -ItemType Directory -Force $out | Out-Null
-        Get-ChildItem "target/release/bundle/nsis/*.exe" | Copy-Item -Destination $out -Force
-        $zip = Join-Path $out "rahsa-extension-$version.zip"
+        $pkg = Join-Path $out $name
+        if (Test-Path $pkg) { Remove-Item $pkg -Recurse -Force }
+        New-Item -ItemType Directory -Force $pkg | Out-Null
+
+        Copy-Item "target/release/bundle/nsis/Rahsa_${version}_x64-setup.exe" $pkg
+        Copy-Item "extension/dist" (Join-Path $pkg "ekstensi-chrome") -Recurse
+        # Notepad-friendly: Windows line endings, real version number filled in.
+        $guide = (Get-Content "docs/CARA-PASANG.txt" -Raw) -replace "<versi>", $version -replace "\r?\n", "`r`n"
+        [IO.File]::WriteAllText((Join-Path $pkg "CARA-PASANG.txt"), $guide, [Text.UTF8Encoding]::new($true))
+
+        $zip = Join-Path $out "$name.zip"
         if (Test-Path $zip) { Remove-Item $zip }
-        Compress-Archive -Path "extension/dist/*" -DestinationPath $zip
-        Copy-Item "docs/CARA-PASANG.md" (Join-Path $out "CARA-PASANG.md") -Force
+        Compress-Archive -Path $pkg -DestinationPath $zip
         Write-Host ""
-        Write-Host "Siap dibagikan di: $out"
-        Get-ChildItem $out | ForEach-Object { Write-Host ("  {0}  ({1:N1} MB)" -f $_.Name, ($_.Length / 1MB)) }
+        Write-Host ("Siap dibagikan: {0}  ({1:N1} MB)" -f $zip, ((Get-Item $zip).Length / 1MB))
     }
 }
 finally {
